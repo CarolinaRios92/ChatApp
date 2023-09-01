@@ -19,14 +19,27 @@ app.use(cors({
     origin: process.env.CLIENT_URL,
 }));
 
+app.get("/profile", (req, res) => {
+    const {token} = req.cookies;
+    if(token){
+        jwt.verify(token, jwtSecret, {}, (err, userData) => {
+        if(err) throw err;
+        res.json(userData);
+        })
+    } else {
+        res.status(401).json("no token");
+    }
+})
+
 app.post("/register", async (req, res) => {
     const {username, password} = req.body;
     try {
         const newUser = await User.create({username, password});
-        jwt.sign({userId:newUser._id}, jwtSecret, {}, (err, token) => {
+        jwt.sign({userId:newUser._id, username}, jwtSecret, {}, (err, token) => {
             if(err) throw err;
             res.cookie("token", token, {sameSite: "none"}).status(201).json({
                 id: newUser._id,
+                username
             });
         });
     } catch (error) {

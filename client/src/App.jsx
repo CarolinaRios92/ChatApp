@@ -1,4 +1,4 @@
-import Register from "./components/Register";
+import Routes from "../Routes";
 import { UserContextProvider } from "./UserContext";
 import axios from "axios";
 
@@ -8,7 +8,7 @@ function App() {
   return (
     <>
       <UserContextProvider>
-        <Register />
+        <Routes />
       </UserContextProvider>
     </>
   );
