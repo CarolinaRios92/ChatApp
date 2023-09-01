@@ -31,6 +31,12 @@ app.get("/profile", (req, res) => {
     }
 })
 
+app.post("/login", async (req, res) => {
+    const {username, password} = req.body;
+    const foundUset = await User.findOne({username});
+    
+})
+
 app.post("/register", async (req, res) => {
     const {username, password} = req.body;
     try {
